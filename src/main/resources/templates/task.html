@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Task details</title>
+</head>
+<body>
+<a th:href="@{/tasks}">Task overview</a>
+
+<h2>Task Detail</h2>
+
+
+<p th:if="${task == null}">Task not found</p>
+<div th:if="${task != null}">
+    <form th:action="@{/tasks/edit/__${task.id}__}">
+        <input type="submit" value="Edit" />
+    </form>
+    <br>
+<table>
+    <tr>
+        <td>ID: </td>
+        <td th:text="${task.id}"></td>
+    </tr>
+    <tr>
+        <td>Title: </td>
+        <td th:text="${task.title}"></td>
+    </tr>
+    <tr>
+        <td>Description: </td>
+        <td th:text="${task.description}"></td>
+    </tr>
+    <tr>
+        <td>Due date: </td>
+        <td th:text="${#temporals.format(task.dueDate, 'dd-MM-yyyy HH:mm')}"></td>
+    </tr>
+</table>
+    <br><br>
+    <div th:if="${#lists.isEmpty(subtasks)}">
+        <div><h4>There are no subtasks</h4></div>
+    </div>
+    <div th:if="${!#lists.isEmpty(subtasks)}">
+        <div><h4>Subtasks:</h4></div>
+        <table>
+            <thead>
+            <tr>
+                <th style="width: 8em">Title</th>
+                <th style="width: 12em">Description</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="subtask : ${subtasks}">
+                <td th:text="*{subtask.title}"></td>
+                <td th:text="*{subtask.description}"></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <br>
+    <form th:action="@{/tasks/__${task.id}__/sub/create}">
+        <input type="submit" value="Create subtask" />
+    </form>
+</div>
+<br> <br> <br>
+<form th:action="@{/logout}" method="post">
+    <input type="submit" value="Log out"/>
+</form>
+</body>
+</html>

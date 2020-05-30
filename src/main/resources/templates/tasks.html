@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Tasks overview</title>
+</head>
+<body>
+<h2>Tasks</h2>
+<div th:if="${#lists.isEmpty(tasks)}">
+    <div><h4>No tasks left to do</h4></div>
+</div>
+<div th:if="${!#lists.isEmpty(tasks)}">
+<table>
+    <thead>
+    <tr>
+        <th style="width: 3em">ID</th>
+        <th style="width: 8em">Task</th>
+        <th style="width: 10em">Due Date</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="task : ${tasks}">
+        <td th:text="*{task.id}"></td>
+        <td><a th:href="@{/tasks/__${task.id}__}" th:text="*{task.title}"></a></td>
+        <td th:text="${#temporals.format(task.dueDate, 'dd-MM-yyyy HH:mm')}"></td>
+    </tr>
+    </tbody>
+</table>
+    <br>
+    <form th:action="@{/tasks/new}">
+        <input type="submit" value="Add task" />
+    </form>
+</div>
+<br><br><br>
+<form th:action="@{/logout}" method="post">
+    <input type="submit" value="Log out"/>
+</form>
+</body>
+</html>

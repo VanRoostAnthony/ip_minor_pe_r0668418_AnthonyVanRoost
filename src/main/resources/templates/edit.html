@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<a th:href="@{/tasks}">Task overview</a>
+<h2>Task editor</h2>
+<p th:if="${task == null}">Task not found</p>
+<div th:if="${task != null}">
+    <table>
+        <tr>
+            <td>ID: </td>
+            <td th:text="${task.id}"></td>
+        </tr>
+        <tr>
+            <td>Title: </td>
+            <td th:text="${task.title}"></td>
+        </tr>
+        <tr>
+            <td>Description: </td>
+            <td th:text="${task.description}"></td>
+        </tr>
+        <tr>
+            <td>Due date: </td>
+            <td th:text="${task.dueDate}"></td>
+        </tr>
+    </table>
+    <br>
+
+    <form method="post" th:action="@{/tasks/edit/__${task.id}__}">
+        <h2>Edit task</h2>
+        <div>
+            <label for="id">Task ID: </label><br>
+            <input type="text" name="id" id="id" th:value="${task.id}" readonly style="color:#888">
+        </div>
+        <br>
+        <div>
+            <label for="title">Title: </label><br>
+            <input type="text" name="title" id="title" th:value="${task.title}">
+        </div>
+        <br>
+        <div>
+            <label for="description">Description: </label><br>
+            <input type="text" name="description" id="description" th:value="${task.description}">
+        </div>
+        <br>
+        <div>
+            <label for="dueDate">Due date: </label><br>
+            <!--Voorbeeld: 05-02-1995 12:46-->
+            <input type="datetime-local" name="dueDate" id="dueDate" th:value="${task.dueDate}">
+        </div>
+        <br>
+        <input type="submit" value="Submit changes">
+    </form>
+</div>
+</body>
+</html>
